@@ -19,6 +19,7 @@
         dotfiles = importModule ./home/dotfiles.nix;
         git = importModule ./home/git.nix;
         fonts = importModule ./home/fonts.nix;
+        theme = importModule ./home/theme.nix;
       };
 
       # NixOS modules - import individually or use 'all'
