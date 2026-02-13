@@ -15,6 +15,7 @@
       # Home Manager modules - import individually or use 'all'
       homeModules = {
         shell = importModule ./home/shell.nix;
+        terminal = importModule ./home/terminal.nix;
       };
 
       # NixOS modules - import individually or use 'all'
