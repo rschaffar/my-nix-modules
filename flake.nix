@@ -17,6 +17,7 @@
         shell = importModule ./home/shell.nix;
         terminal = importModule ./home/terminal.nix;
         dotfiles = importModule ./home/dotfiles.nix;
+        git = importModule ./home/git.nix;
       };
 
       # NixOS modules - import individually or use 'all'
