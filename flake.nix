@@ -28,6 +28,7 @@
         gnome = importModule ./home/gnome.nix;
         yazi = importModule ./home/yazi.nix;
         "profile-dev-languages" = importModule ./home/profiles/dev/languages.nix;
+        "profile-dev-cloud" = importModule ./home/profiles/dev/cloud.nix;
       };
 
       # NixOS modules - import individually or use 'all'
