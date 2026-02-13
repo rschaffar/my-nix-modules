@@ -44,6 +44,7 @@
         desktop-gnome = importModule ./nixos/desktop-gnome.nix;
         audio = importModule ./nixos/audio.nix;
         virtualization = importModule ./nixos/virtualization.nix;
+        locale = importModule ./nixos/locale.nix;
       };
     };
 }
