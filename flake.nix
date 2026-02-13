@@ -24,6 +24,7 @@
         dconf-dump = importModule ./home/dconf-dump.nix;
         "profile-cli-core" = importModule ./home/profiles/cli/core.nix;
         "profile-cli-agents" = importModule ./home/profiles/cli/agents.nix;
+        "profile-cli-media" = importModule ./home/profiles/cli/media.nix;
       };
 
       # NixOS modules - import individually or use 'all'
