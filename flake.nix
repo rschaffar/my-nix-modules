@@ -26,6 +26,7 @@
         "profile-cli-agents" = importModule ./home/profiles/cli/agents.nix;
         "profile-cli-media" = importModule ./home/profiles/cli/media.nix;
         gnome = importModule ./home/gnome.nix;
+        "profile-dev-languages" = importModule ./home/profiles/dev/languages.nix;
       };
 
       # NixOS modules - import individually or use 'all'
