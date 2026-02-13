@@ -39,7 +39,11 @@
 
       # NixOS modules - import individually or use 'all'
       nixosModules = {
-        # NixOS modules will be added here as we migrate them
+        system-options = importModule ./nixos/system-options.nix;
+        desktop-base = importModule ./nixos/desktop-base.nix;
+        desktop-gnome = importModule ./nixos/desktop-gnome.nix;
+        audio = importModule ./nixos/audio.nix;
+        virtualization = importModule ./nixos/virtualization.nix;
       };
     };
 }
