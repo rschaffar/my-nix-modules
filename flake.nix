@@ -22,6 +22,7 @@
         theme = importModule ./home/theme.nix;
         app-launchers = importModule ./home/app-launchers.nix;
         dconf-dump = importModule ./home/dconf-dump.nix;
+        "profile-cli-core" = importModule ./home/profiles/cli/core.nix;
       };
 
       # NixOS modules - import individually or use 'all'
