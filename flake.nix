@@ -14,7 +14,7 @@
     {
       # Home Manager modules - import individually or use 'all'
       homeModules = {
-        # Profiles namespace modules will be added here as we migrate them
+        shell = importModule ./home/shell.nix;
       };
 
       # NixOS modules - import individually or use 'all'
