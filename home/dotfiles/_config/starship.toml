@@ -1,0 +1,43 @@
+# Get editor completions based on the config schema
+#"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+#add_newline = true
+
+# Replace the '❯' symbol in the prompt with '➜'
+#[character] # The name of the module we are configuring is 'character'
+# success_symbol = '[➜](bold green)'
+# The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+#disabled = true
+
+[aws]
+format = 'on [$symbol($profile )(\($region\) )]($style)'
+style = 'bold blue'
+symbol = '🅰 '
+
+[aws.region_aliases]
+ap-southeast-2 = 'au'
+us-east-1 = 'va'
+eu-west-1 = 'euw1'
+eu-central-1 = 'euc1'
+
+[shell]
+disabled = false
+format = '[$indicator]($style) '
+style = 'bold cyan'
+bash_indicator = ''
+fish_indicator = '󰈺'
+
+[env_var.AWS_SSO_PROFILE]
+format = '[$symbol $env_value]($style) '
+symbol = '󱇲'
+style = 'bold red underline'
+
+[custom.AWS_SSO_SESSION_EXPIRATION]
+command = 'echo -n "EXPIRED"'
+when = ''' [[ -v AWS_SSO_SESSION_EXPIRATION && $(date -d "$(echo "${AWS_SSO_SESSION_EXPIRATION}" | cut -d ' ' -f 1,2,3)" +"%s") -lt $(date +"%s") ]] '''
+style = 'bold fg:white bg:red'
+format = '[$symbol($output)]($style) '

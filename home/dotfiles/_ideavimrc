@@ -1,0 +1,32 @@
+" IdeaVim config derived from Neovim settings
+
+let mapleader=" "
+let maplocalleader=" "
+
+set clipboard=unnamedplus
+
+set number
+set relativenumber
+
+" General keymaps
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>/ :nohlsearch<CR>
+nnoremap <leader>n :set relativenumber!<CR>
+
+" Split management
+nnoremap <C-w>" :split<CR>
+nnoremap <C-w>% :vsplit<CR>
+
+" Better indenting
+vnoremap < <gv
+vnoremap > >gv
+
+" Move text up and down
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" Keep cursor centered when scrolling
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+

@@ -1,0 +1,31 @@
+# tmux-sessionizer (tms) configuration
+search_paths = [
+    "~/projects",
+    "~/unsynced_projects",
+    "~/nix",
+    "~/agentic_tasks"
+]
+
+# Limit search depth to avoid going too deep into nested directories
+max_depth = 2
+
+excluded_dirs = [
+    ".git",
+    "node_modules",
+    "target",
+    ".direnv",
+    "__pycache__",
+    ".pytest_cache",
+    ".venv",
+    "archive"
+]
+
+# Default session name when creating new sessions
+default_session = "main"
+
+# Enable listing worktrees as separate sessions (requires PR #166 build)
+list_worktrees = true
+
+[picker_colors]
+highlight_color = "#224422"
+
