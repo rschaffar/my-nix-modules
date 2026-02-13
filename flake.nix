@@ -35,6 +35,33 @@
         "profile-desktop-productivity" = importModule ./home/profiles/desktop/productivity.nix;
         "profile-desktop-media" = importModule ./home/profiles/desktop/media.nix;
         "profile-desktop-security" = importModule ./home/profiles/desktop/security.nix;
+        all =
+          { ... }:
+          {
+            imports = [
+              (importModule ./home/shell.nix)
+              (importModule ./home/terminal.nix)
+              (importModule ./home/dotfiles.nix)
+              (importModule ./home/git.nix)
+              (importModule ./home/fonts.nix)
+              (importModule ./home/theme.nix)
+              (importModule ./home/app-launchers.nix)
+              (importModule ./home/dconf-dump.nix)
+              (importModule ./home/profiles/cli/core.nix)
+              (importModule ./home/profiles/cli/agents.nix)
+              (importModule ./home/profiles/cli/media.nix)
+              (importModule ./home/gnome.nix)
+              (importModule ./home/yazi.nix)
+              (importModule ./home/profiles/dev/languages.nix)
+              (importModule ./home/profiles/dev/cloud.nix)
+              (importModule ./home/profiles/dev/heavy.nix)
+              (importModule ./home/profiles/desktop/core.nix)
+              (importModule ./home/profiles/desktop/communication.nix)
+              (importModule ./home/profiles/desktop/productivity.nix)
+              (importModule ./home/profiles/desktop/media.nix)
+              (importModule ./home/profiles/desktop/security.nix)
+            ];
+          };
       };
 
       # NixOS modules - import individually or use 'all'
@@ -47,6 +74,20 @@
         locale = importModule ./nixos/locale.nix;
         base = importModule ./nixos/base.nix;
         networking = importModule ./nixos/networking.nix;
+        all =
+          { ... }:
+          {
+            imports = [
+              (importModule ./nixos/system-options.nix)
+              (importModule ./nixos/desktop-base.nix)
+              (importModule ./nixos/desktop-gnome.nix)
+              (importModule ./nixos/audio.nix)
+              (importModule ./nixos/virtualization.nix)
+              (importModule ./nixos/locale.nix)
+              (importModule ./nixos/base.nix)
+              (importModule ./nixos/networking.nix)
+            ];
+          };
       };
     };
 }
