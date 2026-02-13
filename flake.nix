@@ -34,6 +34,7 @@
         "profile-desktop-communication" = importModule ./home/profiles/desktop/communication.nix;
         "profile-desktop-productivity" = importModule ./home/profiles/desktop/productivity.nix;
         "profile-desktop-media" = importModule ./home/profiles/desktop/media.nix;
+        "profile-desktop-security" = importModule ./home/profiles/desktop/security.nix;
       };
 
       # NixOS modules - import individually or use 'all'
