@@ -23,6 +23,7 @@
         app-launchers = importModule ./home/app-launchers.nix;
         dconf-dump = importModule ./home/dconf-dump.nix;
         "profile-cli-core" = importModule ./home/profiles/cli/core.nix;
+        "profile-cli-agents" = importModule ./home/profiles/cli/agents.nix;
       };
 
       # NixOS modules - import individually or use 'all'
