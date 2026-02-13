@@ -46,6 +46,7 @@
         virtualization = importModule ./nixos/virtualization.nix;
         locale = importModule ./nixos/locale.nix;
         base = importModule ./nixos/base.nix;
+        networking = importModule ./nixos/networking.nix;
       };
     };
 }
