@@ -20,6 +20,8 @@
         git = importModule ./home/git.nix;
         fonts = importModule ./home/fonts.nix;
         theme = importModule ./home/theme.nix;
+        app-launchers = importModule ./home/app-launchers.nix;
+        dconf-dump = importModule ./home/dconf-dump.nix;
       };
 
       # NixOS modules - import individually or use 'all'
