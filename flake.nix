@@ -32,6 +32,7 @@
         "profile-dev-heavy" = importModule ./home/profiles/dev/heavy.nix;
         "profile-desktop-core" = importModule ./home/profiles/desktop/core.nix;
         "profile-desktop-communication" = importModule ./home/profiles/desktop/communication.nix;
+        "profile-desktop-productivity" = importModule ./home/profiles/desktop/productivity.nix;
       };
 
       # NixOS modules - import individually or use 'all'
