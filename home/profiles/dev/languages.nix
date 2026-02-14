@@ -31,20 +31,12 @@
     stylua # Lua formatter
   ];
 
-  # JDK symlinks for easy access
-  home.activation.jdk25Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    ln -sfn ${pkgs.jdk25} "$HOME/jdk25"
-  '';
-
-  home.activation.jdk21Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    ln -sfn ${pkgs.jdk21} "$HOME/jdk21"
-  '';
-
-  home.activation.jdk17Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    ln -sfn ${pkgs.jdk17} "$HOME/jdk17"
-  '';
-
-  home.activation.jdk11Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    ln -sfn ${pkgs.jdk11} "$HOME/jdk11"
+  # JDK symlinks in ~/.jdks/ (IntelliJ's expected location)
+  home.activation.jdkLinks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "$HOME/.jdks"
+    ln -sfn ${pkgs.jdk25} "$HOME/.jdks/jdk25"
+    ln -sfn ${pkgs.jdk21} "$HOME/.jdks/jdk21"
+    ln -sfn ${pkgs.jdk17} "$HOME/.jdks/jdk17"
+    ln -sfn ${pkgs.jdk11} "$HOME/.jdks/jdk11"
   '';
 }
