@@ -1,3 +1,4 @@
+# Networking preset: NetworkManager, resolved, SSH, firewall
 { ... }:
 {
   # NetworkManager

@@ -1,21 +1,15 @@
-{
-  pkgs,
-  ...
-}:
+# Virtualization preset: libvirtd + Docker
+{ ... }:
 {
   virtualisation = {
     libvirtd = {
       enable = true;
       qemu = {
-        package = pkgs.qemu_kvm;
         runAsRoot = false;
+        swtpm.enable = true;
       };
     };
-
     spiceUSBRedirection.enable = true;
-
-    docker = {
-      enable = true;
-    };
+    docker.enable = true;
   };
 }

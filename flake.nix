@@ -1,93 +1,58 @@
 {
-  description = "Reusable NixOS and Home Manager profile modules";
-
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-  };
+  description = "Reusable NixOS and Home Manager preset modules";
 
   outputs =
-    { nixpkgs, ... }:
-    let
-      # Helper to import a module and make it system-agnostic
-      importModule = path: import path;
-    in
+    { ... }:
     {
-      # Home Manager modules - import individually or use 'all'
+      # Home Manager modules - import what you need per user
       homeModules = {
-        shell = importModule ./home/shell.nix;
-        terminal = importModule ./home/terminal.nix;
-        dotfiles = importModule ./home/dotfiles.nix;
-        git = importModule ./home/git.nix;
-        fonts = importModule ./home/fonts.nix;
-        theme = importModule ./home/theme.nix;
-        app-launchers = importModule ./home/app-launchers.nix;
-        dconf-dump = importModule ./home/dconf-dump.nix;
-        "profile-cli-core" = importModule ./home/profiles/cli/core.nix;
-        "profile-cli-agents" = importModule ./home/profiles/cli/agents.nix;
-        "profile-cli-media" = importModule ./home/profiles/cli/media.nix;
-        gnome = importModule ./home/gnome.nix;
-        yazi = importModule ./home/yazi.nix;
-        "profile-dev-languages" = importModule ./home/profiles/dev/languages.nix;
-        "profile-dev-cloud" = importModule ./home/profiles/dev/cloud.nix;
-        "profile-dev-heavy" = importModule ./home/profiles/dev/heavy.nix;
-        "profile-desktop-core" = importModule ./home/profiles/desktop/core.nix;
-        "profile-desktop-communication" = importModule ./home/profiles/desktop/communication.nix;
-        "profile-desktop-productivity" = importModule ./home/profiles/desktop/productivity.nix;
-        "profile-desktop-media" = importModule ./home/profiles/desktop/media.nix;
-        "profile-desktop-security" = importModule ./home/profiles/desktop/security.nix;
-        all =
-          { ... }:
-          {
-            imports = [
-              (importModule ./home/shell.nix)
-              (importModule ./home/terminal.nix)
-              (importModule ./home/dotfiles.nix)
-              (importModule ./home/git.nix)
-              (importModule ./home/fonts.nix)
-              (importModule ./home/theme.nix)
-              (importModule ./home/app-launchers.nix)
-              (importModule ./home/dconf-dump.nix)
-              (importModule ./home/profiles/cli/core.nix)
-              (importModule ./home/profiles/cli/agents.nix)
-              (importModule ./home/profiles/cli/media.nix)
-              (importModule ./home/gnome.nix)
-              (importModule ./home/yazi.nix)
-              (importModule ./home/profiles/dev/languages.nix)
-              (importModule ./home/profiles/dev/cloud.nix)
-              (importModule ./home/profiles/dev/heavy.nix)
-              (importModule ./home/profiles/desktop/core.nix)
-              (importModule ./home/profiles/desktop/communication.nix)
-              (importModule ./home/profiles/desktop/productivity.nix)
-              (importModule ./home/profiles/desktop/media.nix)
-              (importModule ./home/profiles/desktop/security.nix)
-            ];
-          };
+        # Shell and terminal
+        shell = ./home/shell.nix;
+        terminal = ./home/terminal.nix;
+        dotfiles = ./home/dotfiles.nix;
+
+        # Git (has options: userName, userEmail, signingKey, extraConfig)
+        git = ./home/git.nix;
+
+        # Appearance
+        fonts = ./home/fonts.nix;
+        theme = ./home/theme.nix;
+        gnome = ./home/gnome.nix;
+
+        # Utilities (have options: data-driven, always importable)
+        app-launchers = ./home/app-launchers.nix;
+        dconf-dump = ./home/dconf-dump.nix;
+
+        # File manager
+        yazi = ./home/yazi.nix;
+
+        # CLI tools
+        cli-core = ./home/profiles/cli/core.nix;
+        cli-agents = ./home/profiles/cli/agents.nix;
+        cli-media = ./home/profiles/cli/media.nix;
+
+        # Development
+        dev-languages = ./home/profiles/dev/languages.nix;
+        dev-cloud = ./home/profiles/dev/cloud.nix;
+        dev-heavy = ./home/profiles/dev/heavy.nix;
+
+        # Desktop applications
+        desktop-core = ./home/profiles/desktop/core.nix;
+        desktop-communication = ./home/profiles/desktop/communication.nix;
+        desktop-productivity = ./home/profiles/desktop/productivity.nix;
+        desktop-media = ./home/profiles/desktop/media.nix;
+        desktop-security = ./home/profiles/desktop/security.nix;
       };
 
-      # NixOS modules - import individually or use 'all'
+      # NixOS modules - import what you need per host
       nixosModules = {
-        system-options = importModule ./nixos/system-options.nix;
-        desktop-base = importModule ./nixos/desktop-base.nix;
-        desktop-gnome = importModule ./nixos/desktop-gnome.nix;
-        audio = importModule ./nixos/audio.nix;
-        virtualization = importModule ./nixos/virtualization.nix;
-        locale = importModule ./nixos/locale.nix;
-        base = importModule ./nixos/base.nix;
-        networking = importModule ./nixos/networking.nix;
-        all =
-          { ... }:
-          {
-            imports = [
-              (importModule ./nixos/system-options.nix)
-              (importModule ./nixos/desktop-base.nix)
-              (importModule ./nixos/desktop-gnome.nix)
-              (importModule ./nixos/audio.nix)
-              (importModule ./nixos/virtualization.nix)
-              (importModule ./nixos/locale.nix)
-              (importModule ./nixos/base.nix)
-              (importModule ./nixos/networking.nix)
-            ];
-          };
+        desktop-gnome = ./nixos/desktop-gnome.nix;
+        nvidia = ./nixos/nvidia.nix;
+        audio = ./nixos/audio.nix;
+        virtualization = ./nixos/virtualization.nix;
+        locale-en-gb = ./nixos/locale-en-gb.nix;
+        base = ./nixos/base.nix;
+        networking = ./nixos/networking.nix;
       };
     };
 }

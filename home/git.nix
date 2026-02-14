@@ -41,7 +41,6 @@ let
 in
 {
   options.profiles.git = {
-    enable = lib.mkEnableOption "Git configuration";
     userName = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
@@ -64,7 +63,7 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
     programs.git = {
       enable = true;
       package = pkgs.git;

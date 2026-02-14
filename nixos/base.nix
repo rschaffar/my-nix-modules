@@ -1,4 +1,5 @@
-{ lib, pkgs, ... }:
+# Base preset: boot, nix settings, shell, system tools
+{ pkgs, ... }:
 {
   # Bootloader
   boot.loader.systemd-boot.enable = true;

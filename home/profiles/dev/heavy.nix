@@ -1,22 +1,13 @@
-# Heavy development tools - large downloads, full workstations only
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}:
+# Heavy development tools (IDEs, containers)
+{ pkgs, ... }:
 
 {
-  options.profiles.dev.heavy.enable = lib.mkEnableOption "heavy development tools (IDEs, containers)";
+  home.packages = with pkgs; [
+    # IDEs
+    jetbrains-toolbox
+    vscode-fhs
 
-  config = lib.mkIf config.profiles.dev.heavy.enable {
-    home.packages = with pkgs; [
-      # IDEs
-      jetbrains-toolbox
-      vscode-fhs
-
-      # Container management
-      lazydocker
-    ];
-  };
+    # Container management
+    lazydocker
+  ];
 }

@@ -1,59 +1,50 @@
 # Programming languages, compilers, and formatters
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}:
+{ pkgs, lib, ... }:
 
 {
-  options.profiles.dev.languages.enable = lib.mkEnableOption "development languages and compilers";
+  home.packages = with pkgs; [
+    # Java ecosystem
+    jdk25
+    maven
 
-  config = lib.mkIf config.profiles.dev.languages.enable {
-    home.packages = with pkgs; [
-      # Java ecosystem
-      jdk25
-      maven
+    # Python ecosystem
+    uv
+    pyenv
+    (python313.withPackages (
+      ps: with ps; [
+        requests
+        beautifulsoup4
+        lxml
+      ]
+    ))
 
-      # Python ecosystem
-      uv
-      pyenv
-      (python313.withPackages (
-        ps: with ps; [
-          requests
-          beautifulsoup4
-          lxml
-        ]
-      ))
+    # JavaScript/Node
+    nodejs_22
 
-      # JavaScript/Node
-      nodejs_22
+    # Rust
+    rust-analyzer
 
-      # Rust
-      rust-analyzer
+    # C/C++
+    gcc
 
-      # C/C++
-      gcc
+    # Formatters
+    stylua # Lua formatter
+  ];
 
-      # Formatters
-      stylua # Lua formatter
-    ];
+  # JDK symlinks for easy access
+  home.activation.jdk25Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ln -sfn ${pkgs.jdk25} "$HOME/jdk25"
+  '';
 
-    # JDK symlinks for easy access
-    home.activation.jdk25Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ln -sfn ${pkgs.jdk25} "$HOME/jdk25"
-    '';
+  home.activation.jdk21Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ln -sfn ${pkgs.jdk21} "$HOME/jdk21"
+  '';
 
-    home.activation.jdk21Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ln -sfn ${pkgs.jdk21} "$HOME/jdk21"
-    '';
+  home.activation.jdk17Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ln -sfn ${pkgs.jdk17} "$HOME/jdk17"
+  '';
 
-    home.activation.jdk17Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ln -sfn ${pkgs.jdk17} "$HOME/jdk17"
-    '';
-
-    home.activation.jdk11Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ln -sfn ${pkgs.jdk11} "$HOME/jdk11"
-    '';
-  };
+  home.activation.jdk11Link = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ln -sfn ${pkgs.jdk11} "$HOME/jdk11"
+  '';
 }
