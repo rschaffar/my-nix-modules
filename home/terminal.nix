@@ -77,7 +77,7 @@
       bind -r ')' switch-client -n\; refresh-client -S
 
       # Additional settings taken from sensible defaults
-      set -g default-terminal "screen-256color"
+      set -g default-terminal "tmux-256color"
       set -g display-time 4000
       set -g status-interval 5
 
