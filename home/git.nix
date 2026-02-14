@@ -67,17 +67,14 @@ in
     programs.git = {
       enable = true;
       package = pkgs.git;
-      settings =
-        defaultExtraConfig
-        // cfg.extraConfig
-        // {
-          user = {
-            name = userName;
-          }
-          // lib.optionalAttrs (cfg.userEmail != null) {
-            email = cfg.userEmail;
-          };
+      settings = lib.recursiveUpdate defaultExtraConfig cfg.extraConfig // {
+        user = {
+          name = userName;
+        }
+        // lib.optionalAttrs (cfg.userEmail != null) {
+          email = cfg.userEmail;
         };
+      };
     }
     // lib.optionalAttrs (cfg.signingKey != null) {
       signing = {
