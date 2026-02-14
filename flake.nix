@@ -18,7 +18,7 @@
         terminal = ./home/terminal.nix;
         dotfiles = ./home/dotfiles.nix;
 
-        # Git (has options: userName, userEmail, signingKey, extraConfig)
+        # Git (delta pager, GitHub credentials, rebase)
         git = ./home/git.nix;
 
         # Appearance
