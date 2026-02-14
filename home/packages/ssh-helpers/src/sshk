@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Kill SSH master connections
+# Usage: sshk [host]  - kill specific master, or all if no argument
+set -euo pipefail
+
+kill_master() {
+  local sock="$1"
+  if [[ -S "$sock" ]]; then
+    ssh -O exit -o ControlPath="$sock" dummy 2>/dev/null || true
+    echo "Closed: $(basename "$sock" | sed 's/^master-//')"
+    return 0
+  fi
+  return 1
+}
+
+if [[ $# -gt 0 ]]; then
+  # Kill specific master
+  host="$1"
+  sock="$HOME/.ssh/master-${host}"
+  if [[ -S "$sock" ]]; then
+    kill_master "$sock"
+  else
+    echo "No master for: $host"
+    exit 1
+  fi
+else
+  # Kill all masters
+  shopt -s nullglob
+  masters=(~/.ssh/master-*)
+  shopt -u nullglob
+
+  if [[ ${#masters[@]} -eq 0 ]]; then
+    echo "No masters to close"
+    exit 0
+  fi
+
+  for sock in "${masters[@]}"; do
+    kill_master "$sock"
+  done
+
+  echo "All masters closed"
+fi

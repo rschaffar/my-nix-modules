@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Interactively kill SSH master connections using fzf
+set -euo pipefail
+
+shopt -s nullglob
+masters=(~/.ssh/master-*)
+shopt -u nullglob
+
+if [[ ${#masters[@]} -eq 0 ]]; then
+  echo "No masters"
+  exit 0
+fi
+
+selected=$(printf '%s\n' "${masters[@]}" | fzf --multi --prompt="Kill master (TAB to multi-select): ")
+
+if [[ -z "$selected" ]]; then
+  echo "Nothing selected"
+  exit 0
+fi
+
+while IFS= read -r sock; do
+  if [[ -S "$sock" ]]; then
+    ssh -O exit -o ControlPath="$sock" dummy 2>/dev/null || true
+    echo "Closed: $(basename "$sock" | sed 's/^master-//')"
+  fi
+done <<< "$selected"

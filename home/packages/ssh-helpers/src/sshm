@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Create SSH master connection for multiplexing (reused by subsequent ssh/scp/rsync)
+# Usage: sshm [ssh-options] destination
+exec ssh -o ControlMaster=auto -o ControlPersist=yes "$@"

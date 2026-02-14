@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+toggle_github_remote() {
+    local remote_name="${1:-origin}"
+    
+    if ! git rev-parse --git-dir >/dev/null 2>&1; then
+        echo "Error: Not in a git repository" >&2
+        exit 1
+    fi
+    
+    local current_url
+    current_url=$(git remote get-url "$remote_name" 2>/dev/null || true)
+    
+    if [[ -z "$current_url" ]]; then
+        echo "Error: Remote '$remote_name' not found" >&2
+        exit 1
+    fi
+    
+    local new_url
+    
+    if [[ "$current_url" =~ ^https://github\.com/(.+)$ ]]; then
+        # Convert HTTPS to SSH
+        local repo_path="${BASH_REMATCH[1]}"
+        new_url="git@github.com:${repo_path}"
+        echo "Converting HTTPS to SSH: $current_url -> $new_url"
+    elif [[ "$current_url" =~ ^git@github\.com:(.+)$ ]]; then
+        # Convert SSH to HTTPS
+        local repo_path="${BASH_REMATCH[1]}"
+        new_url="https://github.com/${repo_path}"
+        echo "Converting SSH to HTTPS: $current_url -> $new_url"
+    else
+        echo "Remote '$remote_name' is not a GitHub URL: $current_url"
+        echo "Only GitHub remotes (https://github.com/* or git@github.com:*) are supported"
+        exit 1
+    fi
+    
+    git remote set-url "$remote_name" "$new_url"
+    echo "Successfully updated remote '$remote_name'"
+}
+
+show_usage() {
+    echo "Usage: $0 [REMOTE_NAME]"
+    echo ""
+    echo "Toggle between HTTPS and SSH versions of GitHub remotes"
+    echo ""
+    echo "Arguments:"
+    echo "  REMOTE_NAME    Name of the remote to toggle (default: origin)"
+    echo ""
+    echo "Examples:"
+    echo "  $0              # Toggle origin remote"
+    echo "  $0 upstream     # Toggle upstream remote"
+}
+
+main() {
+    if [[ $# -gt 1 ]]; then
+        show_usage
+        exit 1
+    fi
+    
+    if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+        show_usage
+        exit 0
+    fi
+    
+    toggle_github_remote "${1:-origin}"
+}
+
+main "$@"

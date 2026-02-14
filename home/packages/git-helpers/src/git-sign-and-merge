@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+show_usage() {
+    echo "Usage: $0 <branch> [base-branch]"
+    echo ""
+    echo "Sign all commits on a branch and merge to base branch with a signed merge commit."
+    echo ""
+    echo "Arguments:"
+    echo "  branch       The feature branch to sign and merge"
+    echo "  base-branch  Target branch to merge into (default: master or main)"
+    echo ""
+    echo "This will:"
+    echo "  1. Rebase the branch to sign all commits (requires Yubikey)"
+    echo "  2. Create a signed merge commit on the base branch"
+    echo ""
+    echo "Examples:"
+    echo "  $0 feature-branch           # Sign and merge feature-branch to master/main"
+    echo "  $0 feature-branch develop   # Sign and merge feature-branch to develop"
+}
+
+detect_base_branch() {
+    if git show-ref --verify --quiet refs/heads/master; then
+        echo "master"
+    elif git show-ref --verify --quiet refs/heads/main; then
+        echo "main"
+    else
+        echo "Error: Could not detect base branch (no 'master' or 'main' found)" >&2
+        exit 1
+    fi
+}
+
+main() {
+    if [[ $# -lt 1 ]] || [[ "${1:-}" == "-h" ]] || [[ "${1:-}" == "--help" ]]; then
+        show_usage
+        exit 0
+    fi
+
+    local branch="$1"
+    local base_branch="${2:-$(detect_base_branch)}"
+
+    if ! git rev-parse --git-dir >/dev/null 2>&1; then
+        echo "Error: Not in a git repository" >&2
+        exit 1
+    fi
+
+    if ! git show-ref --verify --quiet "refs/heads/$branch"; then
+        echo "Error: Branch '$branch' does not exist" >&2
+        exit 1
+    fi
+
+    if ! git show-ref --verify --quiet "refs/heads/$base_branch"; then
+        echo "Error: Base branch '$base_branch' does not exist" >&2
+        exit 1
+    fi
+
+    # Check for uncommitted changes
+    if ! git diff-index --quiet HEAD --; then
+        echo "Error: You have uncommitted changes. Please commit or stash them first." >&2
+        exit 1
+    fi
+
+    local merge_base
+    merge_base=$(git merge-base "$base_branch" "$branch")
+    
+    local commit_count
+    commit_count=$(git rev-list --count "$merge_base..$branch")
+    
+    echo "Branch '$branch' has $commit_count commit(s) to sign"
+    echo "Merge base: $merge_base"
+    echo ""
+
+    # Switch to feature branch and rebase to sign commits
+    echo "==> Checking out '$branch' and signing commits..."
+    git checkout "$branch"
+    
+    if [[ "$commit_count" -gt 0 ]]; then
+        git rebase -S "$merge_base"
+        echo "==> All commits signed"
+    else
+        echo "==> No commits to sign"
+    fi
+
+    # Switch to base branch and merge
+    echo ""
+    echo "==> Checking out '$base_branch' and creating signed merge commit..."
+    git checkout "$base_branch"
+    git merge -S --no-ff "$branch" -m "Merge branch '$branch'"
+
+    echo ""
+    echo "Done! Branch '$branch' has been signed and merged into '$base_branch'"
+    echo ""
+    echo "Verify with: git log --show-signature -n $((commit_count + 1))"
+}
+
+main "$@"

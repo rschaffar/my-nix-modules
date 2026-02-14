@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# List active SSH master connections
+set -euo pipefail
+
+shopt -s nullglob
+masters=(~/.ssh/master-*)
+shopt -u nullglob
+
+if [[ ${#masters[@]} -eq 0 ]]; then
+  echo "No masters"
+  exit 0
+fi
+
+for sock in "${masters[@]}"; do
+  basename "$sock" | sed 's/^master-//'
+done

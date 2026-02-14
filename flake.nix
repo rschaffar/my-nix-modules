@@ -39,6 +39,10 @@
         cli-agents = ./home/profiles/cli/agents.nix;
         cli-media = ./home/profiles/cli/media.nix;
 
+        # Helper tools
+        ssh-helpers = ./home/ssh-helpers.nix;
+        git-helpers = ./home/git-helpers.nix;
+
         # Development
         dev-languages = ./home/profiles/dev/languages.nix;
         dev-cloud = ./home/profiles/dev/cloud.nix;
@@ -70,6 +74,11 @@
         locale-en-gb = ./nixos/locale-en-gb.nix;
         base = ./nixos/base.nix;
         networking = ./nixos/networking.nix;
+
+        # Server / infrastructure
+        sudo-ssh-agent = ./nixos/sudo-ssh-agent.nix;
+        cross-compile-arm = ./nixos/cross-compile-arm.nix;
+        headless-shell = ./nixos/headless-shell.nix;
       };
     };
 }
