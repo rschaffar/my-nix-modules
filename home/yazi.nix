@@ -1,22 +1,5 @@
 # Yazi file manager with plugins and preview dependencies
 { pkgs, ... }:
-
-let
-  # Pin the upstream plugin repo so our plugin API stays compatible with the
-  # Yazi build and the config remains reproducible across machines.
-  upstreamPlugins = pkgs.fetchFromGitHub {
-    owner = "yazi-rs";
-    repo = "plugins";
-    rev = "2301ff803a033cd16d16e62697474d6cb9a94711";
-    hash = "sha256-+lirIBXv3EvztE/1b3zHnQ9r5N3VWBCUuH3gZR52fE0=";
-  };
-
-  # Start from the nixpkgs plugin set, then override any plugins we want pinned
-  # to the upstream repo (e.g., to keep version-sensitive plugins aligned).
-  pluginPkg = pkgs.yaziPlugins // {
-    zoom = "${upstreamPlugins}/zoom.yazi";
-  };
-in
 {
   programs.yazi = {
     enable = true;
@@ -132,33 +115,31 @@ in
       # Blinking cursor makes the input focus obvious in fuzzy prompts.
       input.cursor_blink = true;
     };
-    plugins = {
+    plugins = with pkgs.yaziPlugins; {
       # One-key open/enter improves muscle memory when browsing.
-      "smart-enter" = pluginPkg."smart-enter";
+      inherit smart-enter;
       # Smarter filters speed up narrowing large directories.
-      "smart-filter" = pluginPkg."smart-filter";
+      inherit smart-filter;
       # Paste into hovered dir for fewer context switches.
-      "smart-paste" = pluginPkg."smart-paste";
+      inherit smart-paste;
       # Quickly hide/maximize panes while respecting ratio defaults.
-      "toggle-pane" = pluginPkg."toggle-pane";
+      inherit toggle-pane;
       # Cosmetic polish: full border makes pane separation clearer.
-      "full-border" = pluginPkg."full-border";
-      # Zoom previews for small images (depends on ImageMagick).
-      zoom = pluginPkg.zoom;
+      inherit full-border;
       # Git linemode makes status visible without extra panes.
-      git = pluginPkg.git;
+      inherit git;
       # VCS change list to jump between modified files.
-      "vcs-files" = pluginPkg."vcs-files";
+      inherit vcs-files;
       # Mount/eject workflow without leaving the file manager.
-      mount = pluginPkg.mount;
+      inherit mount;
       # Inline diffs for quick compare of two files.
-      diff = pluginPkg.diff;
+      inherit diff;
       # Fast chmod on selections without shelling out manually.
-      chmod = pluginPkg.chmod;
+      inherit chmod;
       # Preview via arbitrary command pipelines.
-      piper = pluginPkg.piper;
+      inherit piper;
       # Archive listing fallback (requires unar -> lsar).
-      lsar = pluginPkg.lsar;
+      inherit lsar;
     };
   };
 }
