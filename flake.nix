@@ -2,9 +2,10 @@
   description = "Reusable NixOS and Home Manager preset modules";
 
   inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
-      flake = true;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
