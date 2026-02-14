@@ -20,8 +20,7 @@
     newSession = true;
     # Stop tmux+escape craziness.
     escapeTime = 0;
-    # Force tmux to use /tmp for sockets (WSL2 compat)
-    secureSocket = false;
+
     mouse = true;
     clock24 = true;
     historyLimit = 50000;
