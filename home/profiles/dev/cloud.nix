@@ -2,22 +2,20 @@
 { pkgs, lib, ... }:
 
 {
-  home.packages =
-    with pkgs;
-    [
-      # AWS
-      awscli2
-      aws-sso-cli
+  home.packages = with pkgs; [
+    # AWS
+    awscli2
+    aws-sso-cli
 
-      # Project management
-      jira-cli-go
+    # Project management
+    jira-cli-go
 
-      # File sync
-      rclone
-    ]
-    ++ (with pkgs; [
-      docker-credential-helpers # docker-credential-secretservice for GNOME keyring
-    ]);
+    # File sync
+    rclone
+
+    # Docker credential storage via GNOME keyring
+    docker-credential-helpers
+  ];
 
   # Configure docker to use GNOME keyring for credential storage
   home.activation.dockerCredsStore = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

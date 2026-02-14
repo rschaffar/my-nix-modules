@@ -2,31 +2,28 @@
 { pkgs, ... }:
 
 {
-  home.packages =
-    with pkgs;
-    [
-      # Notes and knowledge management
-      obsidian
-      zotero
+  home.packages = with pkgs; [
+    # Notes and knowledge management
+    obsidian
+    zotero
 
-      # Office suite
-      libreoffice
+    # Office suite
+    libreoffice
 
-      # Presentations
-      presenterm
-      mermaid-cli # diagram generation for presenterm
-    ]
-    ++ (with pkgs; [
-      # Handwriting and annotation
-      xournalpp
+    # Presentations
+    presenterm
+    mermaid-cli # diagram generation for presenterm
 
-      # Email
-      thunderbird
+    # Handwriting and annotation
+    xournalpp
 
-      # PDF generation for presenterm
-      python3Packages.weasyprint
+    # Email
+    thunderbird
 
-      # Document preparation
-      texliveFull
-    ]);
+    # PDF generation for presenterm
+    python3Packages.weasyprint
+
+    # Document preparation
+    texliveFull
+  ];
 }

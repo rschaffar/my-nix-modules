@@ -24,7 +24,6 @@
           "pano@elhan.io"
           # "highlight-focus@pimsnel.com"
         ];
-        disabled-extensions = [ ];
       };
       "org/gnome/desktop/interface".show-battery-percentage = true;
       "org/gnome/desktop/interface".clock-show-seconds = true;
