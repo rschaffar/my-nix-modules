@@ -10,13 +10,6 @@ let
       if command -v fastfetch > /dev/null 2>&1
         fastfetch
       end
-      if command -v tailscale > /dev/null 2>&1
-        echo ""
-        set_color --bold cyan
-        # echo "Tailscale status:"
-        # set_color normal
-        # tailscale status 2>/dev/null || echo "  (not connected)"
-      end
       echo ""
     end
   '';
@@ -24,7 +17,6 @@ in
 {
   programs.bash = {
     enable = true;
-    enableCompletion = true;
     initExtra = ''
       # Enable vim/vi-style motions in bash
       set -o vi
@@ -103,11 +95,7 @@ in
     };
   };
 
-  programs.starship = {
-    enable = true;
-    enableBashIntegration = true;
-    enableFishIntegration = true;
-  };
+  programs.starship.enable = true;
 
   programs.ssh = {
     enable = true;
