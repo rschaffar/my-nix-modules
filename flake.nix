@@ -1,8 +1,15 @@
 {
   description = "Reusable NixOS and Home Manager preset modules";
 
+  inputs = {
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.3";
+      flake = true;
+    };
+  };
+
   outputs =
-    { ... }:
+    { lanzaboote, ... }:
     {
       # Home Manager modules - import what you need per user
       homeModules = {
@@ -46,6 +53,15 @@
 
       # NixOS modules - import what you need per host
       nixosModules = {
+        # Bootloader (pick one)
+        bootloader-systemd-boot = ./nixos/bootloader-systemd-boot.nix;
+        bootloader-secure-boot = {
+          imports = [
+            lanzaboote.nixosModules.lanzaboote
+            ./nixos/bootloader-secure-boot.nix
+          ];
+        };
+
         desktop-gnome = ./nixos/desktop-gnome.nix;
         nvidia = ./nixos/nvidia.nix;
         audio = ./nixos/audio.nix;

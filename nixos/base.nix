@@ -1,9 +1,6 @@
-# Base preset: boot, nix settings, shell, system tools
+# Base preset: nix settings, shell, system tools
 { pkgs, ... }:
 {
-  # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.cleanOnBoot = true;
 
   # Nix settings
