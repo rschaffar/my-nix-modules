@@ -45,8 +45,7 @@
       set -as terminal-features 'kitty*:clipboard:hyperlinks'
       set -as terminal-features 'wezterm*:clipboard:hyperlinks'
 
-      # Start windows and panes at 1, not 0
-      set -g base-index 1
+      # Pane base index (base-index is set via the HM option above)
       set -g pane-base-index 1
       set-window-option -g pane-base-index 1
       set-option -g renumber-windows on
